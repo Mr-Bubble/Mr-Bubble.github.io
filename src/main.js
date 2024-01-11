@@ -9,6 +9,18 @@ import "./styles/tailwind.css";
 // svg icon
 import "virtual:svg-icons-register";
 
+// Toast
+import "vant/es/toast/style";
+
+// Dialog
+import "vant/es/dialog/style";
+
+// Notify
+import "vant/es/notify/style";
+
+// ImagePreview
+import "vant/es/image-preview/style";
+
 import App from "./App.vue";
 import router from "./router";
 

@@ -1,20 +1,42 @@
 import Layout from "@/layout/index.vue";
-import Demo from "@/views/demo/index.vue";
+import Home from "@/views/home/index.vue";
 
 const routes = [
   {
     path: "/",
     name: "root",
     component: Layout,
-    redirect: { name: "Demo" },
+    redirect: { name: "Home" },
     children: [
       {
-        path: "demo",
-        name: "Demo",
-        component: Demo,
+        path: "home",
+        name: "Home",
+        component: Home,
         meta: {
-          title: "主页"
+          title: "主页",
+          not_back: true
         }
+      },
+      {
+        name: "XmSports",
+        path: "/xmSports",
+        component: () => import("@/views/xmSports/index.vue"),
+        meta: {
+          title: "运动小助手"
+        }
+      },
+      {
+        path: "/sky",
+        children: [
+          {
+            name: "SkyHeight",
+            path: "height",
+            component: () => import("@/views/sky/height/index.vue"),
+            meta: {
+              title: "光遇查身高"
+            }
+          }
+        ]
       },
       {
         path: "tools",
