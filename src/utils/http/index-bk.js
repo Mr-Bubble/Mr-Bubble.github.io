@@ -8,7 +8,7 @@ const configDefault = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
   },
-  timeout: 60000,
+  timeout: 0,
   baseURL: import.meta.env.VITE_BASE_API,
   data: {}
 };
@@ -34,13 +34,6 @@ class Http {
         // if (token) {
         //   config.headers['token'] = token
         // }
-        if (
-          config.individuation &&
-          config.individuation.app_api &&
-          config.url.indexOf(config.individuation.app_api) === -1
-        ) {
-          config.url = config.individuation.app_api + config.url;
-        }
         return config;
       },
       error => {
@@ -55,7 +48,19 @@ class Http {
     Http.axiosInstance.interceptors.response.use(
       response => {
         NProgress.done();
-        return response.data;
+        // 与后端协定的返回字段
+        const { code, message, result } = response.data;
+        // 判断请求是否成功 （code 200 请求成功）
+        const isSuccess =
+          result && Reflect.has(response.data, "code") && code === 200;
+        if (isSuccess) {
+          return result;
+        } else {
+          // 处理请求错误
+          // showFailToast(message);
+          console.log(message);
+          return Promise.reject(response.data);
+        }
       },
       error => {
         NProgress.done();
